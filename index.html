@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Direct Chat with Visitor Counter & Banner Ad</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+    <!-- Select2 CSS for searchable dropdown -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .chat-box {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 350px;
+            margin-bottom: 20px;
+        }
+
+        .chat-box h2 {
+            color: #25D366;
+            margin-bottom: 20px;
+        }
+
+        select, input, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #1ebe57;
+        }
+
+        /* Visitor Counter Box */
+        .visitor-counter {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #fff;
+            padding: 10px 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            color: #333;
+            font-size: 14px;
+        }
+
+        /* Banner Ad Styling */
+        .banner-ad {
+            width: 100%;
+            max-width: 400px;
+            margin-top: 20px;
+        }
+
+        .banner-ad img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-box">
+        <h2>WhatsApp Chat</h2>
+
+        <!-- Country Code Dropdown -->
+        <select id="countryCode" style="width: 100%;">
+            <option value="91" selected>🇮🇳 +91 (India)</option>
+            <option value="1">🇺🇸 +1 (USA)</option>
+            <option value="44">🇬🇧 +44 (UK)</option>
+            <option value="61">🇦🇺 +61 (Australia)</option>
+            <option value="971">🇦🇪 +971 (UAE)</option>
+            <option value="880">🇧🇩 +880 (Bangladesh)</option>
+            <option value="81">🇯🇵 +81 (Japan)</option>
+            <option value="49">🇩🇪 +49 (Germany)</option>
+            <option value="33">🇫🇷 +33 (France)</option>
+            <option value="7">🇷🇺 +7 (Russia)</option>
+            <option value="86">🇨🇳 +86 (China)</option>
+            <option value="39">🇮🇹 +39 (Italy)</option>
+            <option value="55">🇧🇷 +55 (Brazil)</option>
+            <option value="34">🇪🇸 +34 (Spain)</option>
+            <option value="82">🇰🇷 +82 (South Korea)</option>
+            <option value="62">🇮🇩 +62 (Indonesia)</option>
+            <option value="92">🇵🇰 +92 (Pakistan)</option>
+            <option value="27">🇿🇦 +27 (South Africa)</option>
+        </select>
+
+        <!-- Phone Number Input -->
+        <input type="number" id="phoneNumber" placeholder="Enter Phone Number" required>
+
+        <!-- Open Chat Button -->
+        <button onclick="openChat()">Open Chat</button>
+    </div>
+
+    <!-- Banner Ad Section -->
+    <div class="banner-ad">
+        <a href="https://example.com" target="_blank">
+            <img src="https://via.placeholder.com/400x100.png?text=Your+Ad+Here" alt="Advertisement">
+        </a>
+    </div>
+
+    <!-- Visitor Counter -->
+    <div class="visitor-counter">
+        Total Visitors: <span id="visitorCount">0</span>
+    </div>
+
+    <!-- Select2 JS for searchable dropdown -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        // Searchable dropdown activate karna
+        $(document).ready(function() {
+            $('#countryCode').select2();
+        });
+
+        // WhatsApp Chat Open Function
+        function openChat() {
+            const countryCode = document.getElementById("countryCode").value;
+            const phoneNumber = document.getElementById("phoneNumber").value.trim();
+
+            if (phoneNumber === "" || phoneNumber.length < 6) {
+                alert("Please enter a valid phone number.");
+                return;
+            }
+
+            const url = `https://wa.me/${countryCode}${phoneNumber}`;
+            window.open(url, '_blank');
+        }
+
+        // Visitor Counter Logic
+        function updateVisitorCounter() {
+            let count = localStorage.getItem('visitorCount');
+            if (!count) {
+                count = 1;
+            } else {
+                count = parseInt(count) + 1;
+            }
+            localStorage.setItem('visitorCount', count);
+            document.getElementById('visitorCount').innerText = count;
+        }
+
+        // Counter update on page load
+        window.onload = updateVisitorCounter;
+    </script>
+
+</body>
+</html>
